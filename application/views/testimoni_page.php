@@ -65,8 +65,7 @@
                     <span class="input-group-text bg-white border-end-0 rounded-start-pill">
                         <i class="fas fa-filter text-primary"></i>
                     </span>
-                    <select name="kategori" class="form-select border-start-0 rounded-end-pill"
-                        onchange="document.getElementById('filterForm').submit()">
+                    <select name="kategori" id="filterKategori" class="form-select border-start-0 rounded-end-pill">
                         <option value="">Semua Kategori</option>
                         <?php foreach($kategori as $k) : ?>
                         <option value="<?= $k['id_kategori']; ?>"
@@ -80,9 +79,10 @@
         </div>
     </div>
 
-    <div class="row g-4">
+    <div id="testimony-container" class="row g-4">
+        <?php if (!empty($testimoni)) : ?>
         <?php foreach($testimoni as $t) : ?>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4 item-testi">
             <div class="card h-100 border-0 shadow-sm p-4" style="border-radius: 20px;">
                 <div class="mb-3">
                     <i class="fas fa-quote-left text-primary opacity-25 fs-1"></i>
@@ -94,14 +94,13 @@
 
                 <div class="testimoni-gallery mb-4">
                     <?php 
-    $fotos = $this->db->get_where('testimoni_foto', ['id_testi' => $t['id_testi']])->result_array();
-    $total_foto = count($fotos);
-    $max_display = 4; // Jumlah maksimal foto yang tampil langsung
-    
-    foreach(array_slice($fotos, 0, $max_display) as $index => $f) : 
-        // Cek apakah ini foto terakhir yang ditampilkan dan masih ada sisa foto
-        $is_last = ($index === $max_display - 1 && $total_foto > $max_display);
-    ?>
+                        $fotos = $this->db->get_where('testimoni_foto', ['id_testi' => $t['id_testi']])->result_array();
+                        $total_foto = count($fotos);
+                        $max_display = 4;
+                        
+                        foreach(array_slice($fotos, 0, $max_display) as $index => $f) : 
+                            $is_last = ($index === $max_display - 1 && $total_foto > $max_display);
+                        ?>
                     <a href="<?= base_url('assets/img/testi/' . $f['nama_foto']); ?>"
                         data-fancybox="gallery-<?= $t['id_testi']; ?>"
                         class="gallery-item <?= $is_last ? 'more-photos' : ''; ?>"
@@ -112,7 +111,7 @@
                     <?php endforeach; ?>
 
                     <?php if($total_foto > $max_display) : 
-        foreach(array_slice($fotos, $max_display) as $f) : ?>
+                            foreach(array_slice($fotos, $max_display) as $f) : ?>
                     <a href="<?= base_url('assets/img/testi/' . $f['nama_foto']); ?>"
                         data-fancybox="gallery-<?= $t['id_testi']; ?>" class="d-none"></a>
                     <?php endforeach; endif; ?>
@@ -123,7 +122,6 @@
                         style="width: 48px; height: 48px;">
                         <i class="fas fa-user-tie fs-5"></i>
                     </div>
-
                     <div class="overflow-hidden">
                         <h6 class="fw-bold mb-1 text-dark text-truncate" title="<?= $t['nama_pelanggan']; ?>">
                             <?= $t['nama_pelanggan']; ?>
@@ -137,11 +135,28 @@
             </div>
         </div>
         <?php endforeach; ?>
+        <?php else : ?>
+        <div class="col-12 text-center py-5">
+            <img src="<?= base_url('assets/img/vectors/empty-search.svg'); ?>" class="img-fluid mb-4"
+                style="max-width: 250px;" alt="Empty">
+            <h2 class="fw-bold">Ups! Testimoni Tidak Ditemukan</h2>
+            <p class="text-muted">
+                Maaf, saat ini kami belum memiliki testimoni untuk kategori
+                <span class="fw-bold text-dark">"<?= $kategori_aktif; ?>"</span>.
+            </p>
+            <div class="mt-4">
+                <a href="<?= base_url('testimoni'); ?>" class="btn btn-primary px-4 rounded-pill">
+                    <i class="fas fa-sync-alt me-2"></i> Lihat Semua Testimoni
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 
-    <?php if($total_testi > 6) : ?>
-    <div class="text-center mt-5">
-        <button id="load-more" class="btn btn-outline-primary rounded-pill px-5">Muat Lebih Banyak</button>
+    <div class="text-center mt-5" id="load-more-container"
+        style="display: <?= ($total_testi > 6) ? 'block' : 'none'; ?> !important;">
+        <button id="load-more" class="btn btn-outline-primary rounded-pill px-5">
+            Muat Lebih Banyak
+        </button>
     </div>
-    <?php endif; ?>
 </div>

@@ -9,6 +9,8 @@ class Testimoni extends CI_Controller {
     public function index() {
         // 1. Tangkap id_kategori dari URL
         $id_kat = $this->input->get('kategori');
+        // Tambahkan variabel untuk menampung nama kategori aktif
+        $data['kategori_aktif'] = 'Semua Layanan';
 
         // 2. Siapkan kueri dasar dengan JOIN kategori
         $this->db->select('testimoni.*, kategori.nama_kategori');
@@ -18,17 +20,23 @@ class Testimoni extends CI_Controller {
 
         // 3. LOGIKA FILTER: Tambahkan WHERE jika ada kategori dipilih
         if (!empty($id_kat)) {
-            $this->db->where('testimoni.id_kategori', $id_kat);
+        $this->db->where('testimoni.id_kategori', $id_kat);
+        
+        // Ambil nama kategori untuk keperluan tampilan "Ups!"
+        $kat = $this->db->get_where('kategori', ['id_kategori' => $id_kat])->row_array();
+        if ($kat) {
+            $data['kategori_aktif'] = $kat['nama_kategori'];
         }
-
+    }
         // 4. Hitung TOTAL TESTIMONI yang sesuai filter (untuk Load More/Pagination)
         // Clone kueri sebelum dijalankan get() karena get() akan mereset kueri builder
         $temp_db = clone $this->db;
-        $data['total_testi'] = $temp_db->count_all_results();
+        // Gunakan FALSE agar kueri tidak reset setelah count
+        $data['total_testi'] = $temp_db->count_all_results('', FALSE); 
 
         // 5. Jalankan Kueri Utama dengan Limit
+        $this->db->order_by('testimoni.id_testi', 'DESC');
         $this->db->limit(6, 0); 
-        $this->db->order_by('testimoni.id_testi', 'DESC'); // Opsional: Tampilkan yang terbaru
         $data['testimoni'] = $this->db->get()->result_array();
 
         // 6. Ambil list kategori untuk dropdown filter
@@ -91,28 +99,32 @@ class Testimoni extends CI_Controller {
 
     // Fungsi untuk dipanggil via AJAX
     public function load_more() {
-        $offset = $this->input->post('offset'); // Mengambil urutan data ke berapa
+        $offset = $this->input->post('offset');
+        $id_kat = $this->input->post('kategori'); // Tambahan untuk filter
         $limit = 6;
         
-        $testimoni = $this->db->get_where('testimoni', ['status' => 'tampil'], $limit, $offset)->result_array();
-        
-        // Kirim data dalam bentuk HTML ke JavaScript
-        foreach($testimoni as $t) {
-            echo '
-            <div class="col-md-4 testi-item">
-                <div class="card border-0 shadow-sm h-100 p-4 rounded-4">
-                    <i class="fas fa-quote-left fa-2x text-primary opacity-25 mb-3"></i>
-                    <p class="text-secondary mb-4">"'. $t['isi_testimoni'] .'"</p>
-                    <div class="d-flex align-items-center mt-auto">
-                        <img src="'. base_url('assets/img/testi/'.$t['foto_pelanggan']) .'" 
-                            class="rounded-circle me-3" width="50" height="50" style="object-fit:cover;">
-                        <div>
-                            <h6 class="fw-bold mb-0">'. $t['nama_pelanggan'] .'</h6>
-                            <small class="text-primary">'. $t['instansi'] .'</small>
-                        </div>
-                    </div>
-                </div>
-            </div>';
+        // Siapkan Query dengan Join Kategori agar nama kategori muncul
+        $this->db->select('testimoni.*, kategori.nama_kategori');
+        $this->db->from('testimoni');
+        $this->db->join('kategori', 'testimoni.id_kategori = kategori.id_kategori', 'left');
+        $this->db->where('testimoni.status', 'tampil');
+
+        // Jika ada filter kategori
+        if (!empty($id_kat)) {
+            $this->db->where('testimoni.id_kategori', $id_kat);
         }
+
+        $this->db->order_by('testimoni.id_testi', 'DESC');
+        $this->db->limit($limit, $offset);
+        $testimoni = $this->db->get()->result_array();
+
+        // Loop untuk mengambil galeri foto untuk setiap testimoni
+        foreach ($testimoni as $key => $t) {
+            $testimoni[$key]['fotos'] = $this->db->get_where('testimoni_foto', ['id_testi' => $t['id_testi']])->result_array();
+        }
+
+        // Kirim data sebagai JSON (Wajib agar JS bisa handle Empty State)
+        header('Content-Type: application/json');
+        echo json_encode($testimoni);
     }
 }

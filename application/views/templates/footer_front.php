@@ -95,7 +95,10 @@
 <?php if($this->uri->segment(1) == 'katalog'): ?>
 <script>
 $(document).ready(function() {
+    // Menghitung jumlah awal produk untuk menentukan offset
     let jumlahAwal = $('#product-container').children().length;
+
+    // Jika produk awal kurang dari 8, sembunyikan tombol load more
     if (jumlahAwal < 8) {
         $('#load-more-btn').hide();
     }
@@ -108,7 +111,8 @@ $(document).ready(function() {
         const kategori = "<?= $id_kategori_aktif; ?>";
         const sort = urlParams.get('sort') || 'DESC';
 
-        btn.html('<span class="spinner-border spinner-border-sm"></span> Loading...').prop('disabled',
+        // Efek loading pada tombol
+        btn.html('<span class="spinner-border spinner-border-sm"></span> Memuat...').prop('disabled',
             true);
 
         $.ajax({
@@ -124,20 +128,42 @@ $(document).ready(function() {
                 if (data.length > 0) {
                     let html = '';
                     $.each(data, function(index, p) {
-                        // PINDAHKAN LOGIKA SLUG KE SINI
+                        // Logika slug & formatting yang sama dengan PHP
                         let slug = p.nama_barang.toLowerCase()
                             .replace(/[()&]/g, '')
                             .replace(/\s+/g, '-')
                             .replace(/-+/g, '-');
 
+                        let views = new Intl.NumberFormat('id-ID').format(p.views);
+                        let linkDetail =
+                            `<?= base_url('detail/'); ?>${slug}/${p.id_produk}`;
+                        let pesanWA = encodeURIComponent(
+                            `Halo Admin CV. ABADI JAYA MITRA, saya tertarik dengan produk *${p.nama_barang}*. Bisa minta info lebih lanjut?`
+                        );
+                        let linkWA = `https://wa.me/6282136405274?text=${pesanWA}`;
+
+                        // STRUKTUR HTML HARUS SAMA PERSIS DENGAN PHP
                         html += `
-                            <div class="col-md-3 mb-4">
-                                <div class="card border-0 shadow-sm h-100">
-                                    <img src="<?= base_url('assets/img/produk/'); ?>${p.foto_barang}" class="card-img-top" alt="${p.nama_barang}">
-                                    <div class="card-body">
-                                        <small class="text-primary">${p.nama_kategori}</small>
-                                        <h5 class="card-title text-truncate">${p.nama_barang}</h5>
-                                        <a href="<?= base_url('detail/'); ?>${slug}/${p.id_produk}" class="btn btn-success btn-sm w-100">Tanya Harga</a>
+                            <div class="col-6 col-md-3 mb-3 px-2">
+                                <div class="product-card">
+                                    <div class="position-relative">
+                                        <a href="${linkDetail}">
+                                            <span class="view-badge-mobile">
+                                                <i class="far fa-eye"></i> ${views}
+                                            </span>
+                                            <img src="<?= base_url('assets/img/produk/'); ?>${p.foto_barang}" class="product-img" alt="${p.nama_barang}">
+                                        </a>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="mb-1">
+                                            <span class="category-badge">${p.nama_kategori}</span>
+                                        </div>
+                                        <a href="${linkDetail}" class="text-decoration-none text-dark">
+                                            <h5 class="fw-bold mb-3" style="font-size: 1rem;">${p.nama_barang}</h5>
+                                        </a>
+                                        <a href="${linkWA}" target="_blank" class="btn btn-whatsapp w-100 py-2">
+                                            <i class="fab fa-whatsapp me-2"></i> Tanya Harga
+                                        </a>
                                     </div>
                                 </div>
                             </div>`;
@@ -150,6 +176,7 @@ $(document).ready(function() {
                     offset += data.length;
                     btn.html('Muat Produk Lebih Banyak').prop('disabled', false);
 
+                    // Sembunyikan tombol jika data yang datang kurang dari limit (8)
                     if (data.length < 8) {
                         btn.fadeOut();
                         $('#no-more-msg').removeClass('d-none');
@@ -382,33 +409,136 @@ function kirimAdminWhatsApp(nomorAdmin) {
 </script>
 
 <script>
-var offset = 6; // Karena 6 data awal sudah muncul
-var total_testi = <?= $total_testi; ?>;
+$(document).ready(function() {
+    let offset = 6;
+    const limit = 6;
 
-$('#load-more').click(function() {
-    $.ajax({
-        url: "<?= base_url('testimoni/load_more'); ?>",
-        type: "post",
-        data: {
-            offset: offset
-        },
-        beforeSend: function() {
-            $('#load-more').html('Memuat...'); // Efek loading
-        },
-        success: function(data) {
-            if (data.trim() !== "") {
-                $('#testi-container').append(data); // Tambahkan data baru ke container
-                offset += 6; // Tambah offset untuk klik berikutnya
-                $('#load-more').html('Muat Lebih Banyak');
+    // AMBIL DATA TOTAL DARI PHP (Tambahkan variabel ini)
+    const totalDataAwal = <?= $total_testi; ?>;
 
-                // Sembunyikan tombol jika semua data sudah muncul
-                if (offset >= total_testi) {
-                    $('#load-more').hide();
-                }
-            } else {
-                $('#load-more').hide();
+    // Logika awal: Cek apakah tombol harus muncul atau tidak berdasarkan data asli DB
+    if (totalDataAwal <= limit) {
+        $('#load-more-container').hide();
+    } else {
+        $('#load-more-container').show();
+    }
+
+    // FUNGSI UNTUK MERENDER KARTU (Satu pintu biar seragam)
+    function renderCard(t) {
+        // Logika Galeri Foto
+        let photoHtml = '';
+        const maxDisplay = 4;
+        const totalFoto = t.fotos.length;
+
+        if (totalFoto > 0) {
+            t.fotos.slice(0, maxDisplay).forEach((f, index) => {
+                const isLast = (index === maxDisplay - 1 && totalFoto > maxDisplay);
+                const countAttr = isLast ? `data-count="+${totalFoto - maxDisplay}"` : '';
+                const moreClass = isLast ? 'more-photos' : '';
+
+                photoHtml += `
+                    <a href="<?= base_url('assets/img/testi/'); ?>${f.nama_foto}" 
+                       data-fancybox="gallery-${t.id_testi}" 
+                       class="gallery-item ${moreClass}" ${countAttr}>
+                        <img src="<?= base_url('assets/img/testi/'); ?>${f.nama_foto}" class="rounded border" style="width: 100%; height: 70px; object-fit: cover;">
+                    </a>`;
+            });
+            // Foto tersembunyi untuk Fancybox
+            if (totalFoto > maxDisplay) {
+                t.fotos.slice(maxDisplay).forEach(f => {
+                    photoHtml +=
+                        `<a href="<?= base_url('assets/img/testi/'); ?>${f.nama_foto}" data-fancybox="gallery-${t.id_testi}" class="d-none"></a>`;
+                });
             }
         }
+
+        return `
+            <div class="col-md-4 mb-4 item-testi">
+                <div class="card h-100 border-0 shadow-sm p-4" style="border-radius: 20px;">
+                    <div class="mb-3"><i class="fas fa-quote-left text-primary opacity-25 fs-1"></i></div>
+                    <div class="mb-4"><p class="text-dark fw-medium">"${t.isi_testimoni}"</p></div>
+                    <div class="testimoni-gallery mb-4 d-flex gap-2">${photoHtml}</div>
+                    <div class="d-flex align-items-center mt-auto pt-3 border-top">
+                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">${t.nama_pelanggan}</h6>
+                            <p class="small text-muted mb-0">${t.instansi}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    // 1. FILTER KATEGORI
+    $('#filterKategori').on('change', function() {
+        const id_kat = $(this).val();
+        const nama_kat = $("#filterKategori option:selected").text();
+        offset = 0;
+
+        $.ajax({
+            url: "<?= base_url('testimoni/load_more'); ?>",
+            type: "POST",
+            data: {
+                offset: offset,
+                kategori: id_kat
+            },
+            success: function(data) {
+                $('#testimony-container').empty();
+                if (data.length > 0) {
+                    data.forEach(t => $('#testimony-container').append(renderCard(t)));
+                    offset = limit;
+                    (data.length < limit) ? $('#load-more-container').hide(): $(
+                        '#load-more-container').show();
+                } else {
+                    // TAMPILKAN EMPTY STATE JIKA KOSONG
+                    $('#testimony-container').html(`
+                        <div class="col-12 text-center py-5 my-5">
+                            <div class="mb-4">
+                                <i class="fas fa-search text-light" style="font-size: 100px; color: #e9ecef !important;"></i>
+                            </div>
+                            <h2 class="fw-bold">Ups! Testimoni Tidak Ditemukan</h2>
+                            <p class="text-muted">
+                                Maaf, saat ini kami belum memiliki koleksi testimoni untuk kategori 
+                                <span class="fw-bold text-dark">"${nama_kat}"</span>.
+                            </p>
+                            <div class="mt-4">
+                                <a href="<?= base_url('testimoni'); ?>" class="btn btn-primary px-4 rounded-pill">
+                                    <i class="fas fa-sync-alt me-2"></i> Lihat Semua Testimoni
+                                </a>
+                            </div>
+                        </div>
+                    `);
+                    $('#load-more-container').hide();
+                }
+            }
+        });
+    });
+
+    // 2. LOAD MORE TOMBOL
+    $('#load-more').on('click', function() {
+        const id_kat = $('#filterKategori').val();
+        $(this).prop('disabled', true).text('Loading...');
+
+        $.ajax({
+            url: "<?= base_url('testimoni/load_more'); ?>",
+            type: "POST",
+            data: {
+                offset: offset,
+                kategori: id_kat
+            },
+            success: function(data) {
+                if (data.length > 0) {
+                    data.forEach(t => $('#testimony-container').append(renderCard(t)));
+                    offset += limit;
+                    $('#load-more').prop('disabled', false).text('Muat Lebih Banyak');
+                    if (data.length < limit) $('#load-more-container').hide();
+                } else {
+                    $('#load-more-container').hide();
+                }
+            }
+        });
     });
 });
 </script>

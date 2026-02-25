@@ -16,13 +16,12 @@ class Katalog extends CI_Controller {
         $data['id_kategori_aktif'] = null;
         $id_kategori = null;
 
-        // 1. Logika Mencari Kategori berdasarkan Slug
         if ($slug_kategori) {
-            // Perbaikan Query: Menghapus spasi, tanda kurung, dan simbol ampersand agar cocok dengan slug
+            // Gunakan pencarian slug yang lebih presisi
+            $this->db->group_start();
             $this->db->where("LOWER(REPLACE(REPLACE(REPLACE(REPLACE(nama_kategori, ' ', '-'), '(', ''), ')', ''), '&', '-')) =", $slug_kategori);
-            
-            // Jika masih ada double dash '--' akibat '&' diapit spasi, kita tangani juga
             $this->db->or_where("LOWER(REPLACE(REPLACE(REPLACE(REPLACE(nama_kategori, ' & ', '-'), ' ', '-'), '(', ''), ')', '')) =", $slug_kategori);
+            $this->db->group_end();
             
             $kat = $this->db->get('kategori')->row_array();
             
@@ -30,27 +29,38 @@ class Katalog extends CI_Controller {
                 $data['kategori_aktif'] = $kat['nama_kategori'];
                 $id_kategori = $kat['id_kategori'];
                 $data['id_kategori_aktif'] = $id_kategori;
+            } else {
+                // Jika slug ada tapi tidak ditemukan di DB, set kategori_aktif untuk tampilan "Ups!"
+                $data['kategori_aktif'] = str_replace('-', ' ', $slug_kategori);
             }
         }
 
-        // 2. Logika Mengambil Data Produk (HANYA SATU KALI)
+        // KONSISTENSI: Gunakan angka 12 di semua tempat
+        $limit_awal = 12;
+        $offset_awal = 0;
+        
+        $data['produk'] = $this->M_Produk->get_katalog_paged($limit_awal, $offset_awal, $id_kategori, $sort);
+        
         if ($id_kategori) {
-            $data['produk'] = $this->M_Produk->get_barang_by_kategori($id_kategori, $sort);
             $data['judul_halaman'] = "Kategori: " . $data['kategori_aktif'];
         } else {
-            $data['produk'] = $this->M_Produk->get_all_produk_katalog($sort);
             $data['judul_halaman'] = "Semua Produk Kami";
         }
 
-        // 3. Data Pendukung Lainnya
-        $data['rekomendasi'] = (empty($data['produk'])) ? 
-            $this->db->order_by('id_produk', 'RANDOM')->limit(4)->get('produk')->result_array() : [];
-        
-        $data['title'] = "Katalog Produk - CV. ABADI JAYA MITRA";
+        // Logika Rekomendasi
+        if (empty($data['produk'])) {
+            $data['rekomendasi'] = $this->db->order_by('id_produk', 'RANDOM')
+                                            ->limit(8)
+                                            ->get('produk')
+                                            ->result_array();
+        } else {
+            $data['rekomendasi'] = [];
+        }
+
+        $data['title'] = ($id_kategori) ? "Jual " . $data['kategori_aktif'] . " - CV. ABADI JAYA MITRA" : "Katalog Produk - CV. ABADI JAYA MITRA";
         $data['hot_keywords'] = $this->M_Produk->get_hot_keywords();
         $data['semua_kategori'] = $this->db->get('kategori')->result_array();
 
-        // 4. Load View
         $this->load->view('templates/header_front', $data);
         $this->load->view('templates/navbar_front', $data);
         $this->load->view('templates/hero_section', $data);
@@ -61,14 +71,16 @@ class Katalog extends CI_Controller {
     // Fungsi AJAX untuk mengambil data berikutnya
     public function load_more() {
         $offset   = $this->input->post('offset');
-        $kategori = $this->input->post('kategori'); // Ini akan menerima ID Kategori (angka)
+        $kategori = $this->input->post('kategori'); 
         $sort     = $this->input->post('sort');
-        $limit    = 8;
+        $limit    = 12; // Pastikan sama dengan index
 
-        // Parameter dikirim sesuai urutan: $limit, $offset, $kategori, $sort
         $produk = $this->M_Produk->get_katalog_paged($limit, $offset, $kategori, $sort);
         
-        echo json_encode($produk);
+        // Kembalikan JSON (Penting: Pastikan Model mengembalikan nama_kategori & views)
+        $this->output
+             ->set_content_type('application/json')
+             ->set_output(json_encode($produk));
     }
 
     public function detail($id) {

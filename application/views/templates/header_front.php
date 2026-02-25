@@ -148,13 +148,45 @@
     }
 
     .product-card {
-        border: none;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        /* Paksa kartu mengisi tinggi kolom */
+        background: #fff;
         border-radius: 15px;
         overflow: hidden;
-        transition: 0.3s;
-        background: #fff;
-        height: 100%;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .product-card .card-body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        /* Mengisi ruang kosong yang tersisa */
+        padding: 15px;
+    }
+
+    .product-card .product-title-wrapper {
+        min-height: 3rem;
+        /* Memberikan ruang sekitar 2 baris teks */
+        margin-bottom: 15px;
+    }
+
+    .product-card h5.product-title {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        font-weight: 700;
+        margin-bottom: 0;
+        /* Potong teks jika lebih dari 2 baris */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-card .btn-whatsapp {
+        margin-top: auto;
+        /* Rahasia agar tombol sejajar di bawah */
     }
 
     .product-card:hover {

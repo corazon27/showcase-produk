@@ -105,19 +105,27 @@ class M_Produk extends CI_Model {
         $this->db->from('produk');
         $this->db->join('kategori', 'kategori.id_kategori = produk.id_kategori', 'left');
 
-        if ($kategori != "") {
+        // Filter kategori jika ID diberikan
+        if ($kategori != null && $kategori != "") {
             $this->db->where('produk.id_kategori', $kategori);
         }
 
-        // LOGIKA SORTIR YANG BENAR
+        // LOGIKA SORTIR LENGKAP (Menyesuaikan dengan Dropdown di View)
         if ($sort == 'ASC') {
-            $this->db->order_by('produk.date_created', 'ASC'); // iPhone 17 (2024) pasti jadi nomor 1
+            $this->db->order_by('produk.date_created', 'ASC'); 
         } elseif ($sort == 'AZ') {
             $this->db->order_by('produk.nama_barang', 'ASC');
         } elseif ($sort == 'ZA') {
             $this->db->order_by('produk.nama_barang', 'DESC');
+        } elseif ($sort == 'MV') {
+            // Most Viewed: Terpopuler berdasarkan kolom views
+            $this->db->order_by('produk.views', 'DESC');
+        } elseif ($sort == 'LV') {
+            // Least Viewed: Kurang Populer
+            $this->db->order_by('produk.views', 'ASC');
         } else {
-            $this->db->order_by('produk.date_created', 'DESC'); // Default terbaru
+            // Default: Terbaru
+            $this->db->order_by('produk.date_created', 'DESC');
         }
 
         $this->db->limit($limit, $offset);
