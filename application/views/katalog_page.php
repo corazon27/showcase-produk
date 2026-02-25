@@ -174,6 +174,9 @@
                 <div class="product-card">
                     <div class="position-relative">
                         <a href="<?= $link_detail; ?>">
+                            <span class="view-badge-mobile">
+                                <i class="far fa-eye"></i> <?= number_format($p['views'], 0, ',', '.'); ?>
+                            </span>
                             <img src="<?= base_url('assets/img/produk/' . $p['foto_barang']); ?>" class="product-img"
                                 alt="<?= $p['nama_barang']; ?>">
                         </a>
