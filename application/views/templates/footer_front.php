@@ -27,7 +27,7 @@
             </div>
 
             <div class="col-lg-5">
-                <h5 class="fw-bold mb-3">Hubungi Kami</h5>
+                <h5 class="fw-bold mb-3">Kontak Kami</h5>
                 <div class="row">
                     <div class="col-sm-6 mb-3">
                         <h6 class="text-primary mb-1 small fw-bold">Admin 1</h6>
@@ -41,17 +41,21 @@
                         <a href="https://wa.me/6281225876355"
                             class="btn btn-sm btn-outline-success mt-2 rounded-pill">Chat WhatsApp</a>
                     </div>
+                    <div class="col-sm-6 mb-3">
+                        <h6 class="text-primary mb-1 small fw-bold">Email</h6>
+                        <p><i class="fas fa-envelope me-2 text-primary"></i>
+                            abadijayamitra88@gmail.com
+                        </p>
+                    </div>
+
                 </div>
                 <div class="footer-info">
-                    <h5 class="fw-bold mb-3">Hubungi Kami</h5>
+                    <h5 class="fw-bold mb-3">Lokasi Kami</h5>
                     <address class="text-secondary">
                         <p><i class="fas fa-map-marker-alt me-2 text-primary"></i>
                             <strong>Lokasi Kantor:</strong><br>
                             Perum Bumi Nusantara 1, <br>
                             Magelang, Jawa Tengah 56172
-                        </p>
-                        <p><i class="fas fa-envelope me-2 text-primary"></i>
-                            abadijayamitra88@gmail.com
                         </p>
                     </address>
 

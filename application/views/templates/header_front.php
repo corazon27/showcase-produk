@@ -1151,10 +1151,18 @@
 
     /* Menghilangkan border default dan fokus yang kaku */
     .navbar-toggler {
+        padding: 10px;
         border: none !important;
-        padding: 0;
         outline: none !important;
         box-shadow: none !important;
+        /* KUNCI PERBAIKAN: */
+        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: auto !important;
+        height: auto !important;
     }
 
     /* Animasi batang burger */
@@ -1173,28 +1181,28 @@
     .navbar-toggler span {
         display: block;
         background-color: #333;
-        /* Sesuaikan warna logo AJM kamu */
         height: 3px;
         width: 25px;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        margin: 2px 0;
+        /* Mengurangi margin agar rotasi lebih presisi di tengah */
         position: relative;
         transition: all 0.35s ease-in-out;
+        transform-origin: center;
+        /* Memastikan rotasi dari titik tengah */
     }
 
     /* Animasi X saat di-klik */
     .navbar-toggler:not(.collapsed) span:nth-child(1) {
-        transform: rotate(45deg);
-        top: 8px;
+        transform: translateY(7px) rotate(45deg);
     }
 
     .navbar-toggler:not(.collapsed) span:nth-child(2) {
         opacity: 0;
+        transform: translateX(-10px);
     }
 
     .navbar-toggler:not(.collapsed) span:nth-child(3) {
-        transform: rotate(-45deg);
-        top: -8px;
+        transform: translateY(-7px) rotate(-45deg);
     }
 
     @media (max-width: 991px) {
