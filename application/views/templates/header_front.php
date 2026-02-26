@@ -997,10 +997,23 @@
     .icon-circle {
         width: 50px;
         height: 50px;
-        line-height: 50px;
         border-radius: 50%;
         font-weight: bold;
         font-size: 1.2rem;
+
+        /* Gunakan Flexbox untuk memusatkan nomor secara presisi */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Pastikan ada margin otomatis agar tetap di tengah card */
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+        /* Sama dengan mb-3 di Bootstrap */
+
+        /* Tambahan agar tidak gepeng di layar kecil */
+        flex-shrink: 0;
     }
 
     .navbar-brand img {
@@ -1134,6 +1147,60 @@
 
     .fancybox__nav {
         --f-button-color: #fff;
+    }
+
+    /* Menghilangkan border default dan fokus yang kaku */
+    .navbar-toggler {
+        border: none !important;
+        padding: 0;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Animasi batang burger */
+    .navbar-toggler .navbar-toggler-icon {
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+        position: relative;
+    }
+
+    /* Transformasi menjadi tanda X saat menu terbuka (state: active/not collapsed) */
+    .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+        background-image: none;
+        /* Hilangkan icon bawaan */
+    }
+
+    /* Custom drawing burger jika ingin lebih halus */
+    .navbar-toggler span {
+        display: block;
+        background-color: #333;
+        /* Sesuaikan warna logo AJM kamu */
+        height: 3px;
+        width: 25px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        position: relative;
+        transition: all 0.35s ease-in-out;
+    }
+
+    /* Animasi X saat di-klik */
+    .navbar-toggler:not(.collapsed) span:nth-child(1) {
+        transform: rotate(45deg);
+        top: 8px;
+    }
+
+    .navbar-toggler:not(.collapsed) span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navbar-toggler:not(.collapsed) span:nth-child(3) {
+        transform: rotate(-45deg);
+        top: -8px;
+    }
+
+    @media (max-width: 991px) {
+        .navbar-collapse {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     }
     </style>
 </head>

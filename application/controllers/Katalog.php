@@ -73,7 +73,7 @@ class Katalog extends CI_Controller {
         $offset   = $this->input->post('offset');
         $kategori = $this->input->post('kategori'); 
         $sort     = $this->input->post('sort');
-        $limit    = 12; // Pastikan sama dengan index
+        $limit    = 4; // Pastikan sama dengan index
 
         $produk = $this->M_Produk->get_katalog_paged($limit, $offset, $kategori, $sort);
         

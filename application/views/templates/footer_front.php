@@ -148,9 +148,6 @@ $(document).ready(function() {
                                 <div class="product-card">
                                     <div class="position-relative">
                                         <a href="${linkDetail}">
-                                            <span class="view-badge-mobile">
-                                                <i class="far fa-eye"></i> ${views}
-                                            </span>
                                             <img src="<?= base_url('assets/img/produk/'); ?>${p.foto_barang}" class="product-img" alt="${p.nama_barang}">
                                         </a>
                                     </div>
@@ -176,8 +173,8 @@ $(document).ready(function() {
                     offset += data.length;
                     btn.html('Muat Produk Lebih Banyak').prop('disabled', false);
 
-                    // Sembunyikan tombol jika data yang datang kurang dari limit (8)
-                    if (data.length < 8) {
+                    // 4. CEK LIMIT 4: Jika data yang datang kurang dari 4, sembunyikan tombol
+                    if (data.length < 4) {
                         btn.fadeOut();
                         $('#no-more-msg').removeClass('d-none');
                     }
