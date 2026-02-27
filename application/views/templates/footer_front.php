@@ -1,73 +1,71 @@
-<footer class="bg-dark text-white py-5">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <img src="<?= base_url('assets/img/logo_ajm.png'); ?>" alt="Logo"
-                    style="height: 60px; margin-bottom: 20px;">
-                <p class="small text-secondary">
+<footer class="custom-footer text-white">
+    <div class="container py-5">
+        <div class="row g-4 lg-g-5">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <img src="<?= base_url('assets/img/logo_ajm.png'); ?>" alt="Logo CV AJM" class="footer-logo mb-3">
+                <p class="footer-desc">
                     CV. ABADI JAYA MITRA adalah mitra terpercaya dalam pengadaan Alat Tulis Kantor (ATK) dan perangkat
                     elektronik untuk instansi pemerintah maupun swasta.
                 </p>
             </div>
 
-            <div class="col-lg-2 offset-lg-1">
-                <h5 class="fw-bold mb-3">Navigasi</h5>
-                <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="<?= base_url(); ?>"
-                            class="text-secondary text-decoration-none">Beranda</a></li>
-                    <li class="mb-2"><a href="<?= base_url('tentang-kami'); ?>"
-                            class="text-secondary text-decoration-none">Tentang Kami</a></li>
-                    <li class="mb-2"><a href="<?= base_url('cara-order'); ?>"
-                            class="text-secondary text-decoration-none">Cara Order</a></li>
-                    <li class="mb-2"><a href="<?= base_url('kontak-kami'); ?>"
-                            class="text-secondary text-decoration-none">Kontak</a></li>
-                    <li class="mb-2"><a href="<?= base_url('testimoni'); ?>"
-                            class="text-secondary text-decoration-none">Testimoni</a></li>
+            <div class="col-6 col-lg-2 offset-lg-1">
+                <h5 class="footer-title">Navigasi</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="<?= base_url(); ?>">Beranda</a></li>
+                    <li><a href="<?= base_url('tentang-kami'); ?>">Tentang Kami</a></li>
+                    <li><a href="<?= base_url('cara-order'); ?>">Cara Order</a></li>
+                    <li><a href="<?= base_url('kontak-kami'); ?>">Kontak</a></li>
+                    <li><a href="<?= base_url('testimoni'); ?>">Testimoni</a></li>
                 </ul>
             </div>
 
             <div class="col-lg-5">
-                <h5 class="fw-bold mb-3">Kontak Kami</h5>
-                <div class="row">
-                    <div class="col-sm-6 mb-3">
-                        <h6 class="text-primary mb-1 small fw-bold">Admin 1</h6>
-                        <p class="small mb-0 text-secondary">+62 821-3640-5274</p>
-                        <a href="https://wa.me/6282136405274"
-                            class="btn btn-sm btn-outline-success mt-2 rounded-pill">Chat WhatsApp</a>
+                <h5 class="footer-title">Kontak Kami</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <div class="contact-card">
+                            <h6>Admin 1</h6>
+                            <p>+62 821-3640-5274</p>
+                            <a href="https://wa.me/6282136405274" class="btn-wa">
+                                <i class="fab fa-whatsapp me-2"></i>Chat WhatsApp
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-sm-6 mb-3">
-                        <h6 class="text-primary mb-1 small fw-bold">Admin 2</h6>
-                        <p class="small mb-0 text-secondary">+62 81225876355</p>
-                        <a href="https://wa.me/6281225876355"
-                            class="btn btn-sm btn-outline-success mt-2 rounded-pill">Chat WhatsApp</a>
+                    <div class="col-sm-6">
+                        <div class="contact-card">
+                            <h6>Admin 2</h6>
+                            <p>+62 812-2587-6355</p>
+                            <a href="https://wa.me/6281225876355" class="btn-wa">
+                                <i class="fab fa-whatsapp me-2"></i>Chat WhatsApp
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-sm-6 mb-3">
-                        <h6 class="text-primary mb-1 small fw-bold">Email</h6>
-                        <p><i class="fas fa-envelope me-2 text-primary"></i>
-                            abadijayamitra88@gmail.com
-                        </p>
-                    </div>
-
                 </div>
-                <div class="footer-info">
-                    <h5 class="fw-bold mb-3">Lokasi Kami</h5>
-                    <address class="text-secondary">
-                        <p><i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                            <strong>Lokasi Kantor:</strong><br>
-                            Perum Bumi Nusantara 1, <br>
-                            Magelang, Jawa Tengah 56172
-                        </p>
-                    </address>
 
-                    <a href="https://maps.app.goo.gl/6tk8SWfZYBSzeU5p8" target="_blank"
-                        class="btn btn-sm btn-outline-light rounded-pill px-3">
-                        <i class="fas fa-directions me-1"></i> Petunjuk Arah
+                <div class="location-box border-top pt-4">
+                    <h5 class="footer-title">Lokasi Kami</h5>
+                    <div class="d-flex align-items-start mb-3 text-secondary footer-desc">
+                        <i class="fas fa-map-marker-alt mt-1 me-3 text-primary"></i>
+                        <span>
+                            <strong>Kantor Pusat:</strong><br>
+                            Perum Bumi Nusantara 1, Magelang,<br> Jawa Tengah 56172
+                        </span>
+                    </div>
+                    <a href="https://maps.google.com/?q=Perum+Bumi+Nusantara+1+Magelang" target="_blank"
+                        class="btn-map">
+                        <i class="fas fa-directions me-2"></i>Petunjuk Arah Ke Lokasi
                     </a>
                 </div>
             </div>
         </div>
+    </div>
 
-
+    <div class="footer-bottom py-3 border-top border-secondary border-opacity-25">
+        <div class="container text-center text-md-between d-md-flex">
+            <p class="mb-0 small text-secondary">&copy; 2026 CV. ABADI JAYA MITRA. All Rights Reserved.</p>
+            <p class="mb-0 small text-secondary mt-2 mt-md-0">Penyedia ATK & Elektronik Terpercaya</p>
+        </div>
     </div>
 </footer>
 

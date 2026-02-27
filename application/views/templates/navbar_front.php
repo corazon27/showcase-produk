@@ -3,8 +3,7 @@
         <a class="navbar-brand" href="<?= base_url(); ?>">
             <img src="<?= base_url('assets/img/logo_ajm.png'); ?>" alt="Logo CV ABADI JAYA MITRA">
         </a>
-        <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="toggler-bar"></span>
             <span class="toggler-bar"></span>
             <span class="toggler-bar"></span>

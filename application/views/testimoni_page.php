@@ -106,7 +106,7 @@
                         class="gallery-item <?= $is_last ? 'more-photos' : ''; ?>"
                         data-count="+<?= $total_foto - $max_display; ?>">
                         <img src="<?= base_url('assets/img/testi/' . $f['nama_foto']); ?>"
-                            class="rounded shadow-sm border" style="width: 100%; height: 70px; object-fit: cover;">
+                            class="rounded shadow-sm border">
                     </a>
                     <?php endforeach; ?>
 

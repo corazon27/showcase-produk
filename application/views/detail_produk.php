@@ -4,7 +4,7 @@
             <i class="fas fa-arrow-left fa-lg"></i>
         </a>
 
-        <form action="<?= base_url(''); ?>" method="GET" class="flex-grow-1 mx-2 mx-md-5 position-relative">
+        <form action="<?= base_url(''); ?>" method="GET" class="flex-grow-1 mx-2 mx-lg-5 position-relative">
             <div class="search-wrapper">
                 <div class="position-relative">
                     <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
@@ -49,7 +49,7 @@
 
 <div class="container my-5">
     <div class="row g-5">
-        <div class="col-md-6">
+        <div class="col-lg-6 col-12">
             <div class="swiper mySwiper rounded-4 shadow-sm">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
@@ -76,8 +76,8 @@
             <div class="swiper-pagination-custom d-flex justify-content-center mt-3"></div>
         </div>
 
-        <div class="col-md-6">
-            <nav aria-label="breadcrumb" class="mb-3">
+        <div class="col-lg-6 col-12">
+            <nav aria-label="breadcrumb overflow-x: auto; white-space: nowrap;" class="mb-3">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="<?= base_url(); ?>"
                             class="text-decoration-none text-muted">Home</a></li>

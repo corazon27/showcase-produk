@@ -598,10 +598,23 @@
         }
     }
 
-    /* --- Styling Dots (Pagination) Custom --- */
+    @media (max-width: 991px) {
+        .display-6 {
+            font-size: 1.8rem;
+        }
 
-    /* Titik Biasa (Belum Aktif) */
-    /* Pastikan ini menggantikan gaya lama agar tidak ada kotak-kotak lagi */
+        .card.p-4 {
+            padding: 1.5rem !important;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px) {
+        .col-md-3 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
     .swiper-pagination-custom {
         text-align: center;
         margin-top: 15px;
@@ -1107,7 +1120,6 @@
     .testimoni-gallery {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        /* Maksimal 4 kolom */
         gap: 8px;
     }
 
@@ -1116,9 +1128,34 @@
         display: block;
         overflow: hidden;
         border-radius: 8px;
+        /* Tambahan agar container ikut kotak */
+        aspect-ratio: 1/1;
     }
 
-    /* Efek +X Foto Lainnya */
+    /* PERBAIKAN UTAMA: Hapus tinggi statis 70px */
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        /* Mengisi penuh container gallery-item */
+        object-fit: cover;
+        /* Memotong bagian tepi agar tetap proporsional */
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Responsif khusus Tablet */
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .testimoni-gallery {
+            /* Mengurangi kolom di tablet agar foto tidak terlalu pipih */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+    }
+
+    /* Efek +X Foto Lainnya tetap sama */
     .more-photos::after {
         content: attr(data-count);
         position: absolute;
@@ -1127,22 +1164,13 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        /* Gelapkan foto terakhir */
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
         font-size: 0.9rem;
-    }
-
-    .gallery-item img {
-        transition: transform 0.3s ease;
-    }
-
-    .gallery-item:hover img {
-        transform: scale(1.1);
-        /* Efek zoom saat hover */
+        z-index: 2;
     }
 
     .fancybox__nav {
@@ -1155,14 +1183,12 @@
         border: none !important;
         outline: none !important;
         box-shadow: none !important;
-        /* KUNCI PERBAIKAN: */
         overflow: visible !important;
-        display: flex !important;
+        /* Display: flex dipindahkan ke media query di bawah */
+        display: none;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: auto !important;
-        height: auto !important;
     }
 
     /* Animasi batang burger */
@@ -1206,8 +1232,153 @@
     }
 
     @media (max-width: 991px) {
+        .navbar-toggler {
+            display: flex !important;
+            /* Hanya muncul di layar tablet/HP */
+        }
+
         .navbar-collapse {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Tambahkan padding agar menu mobile tidak mepet */
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .custom-footer {
+        background-color: #1a1d20;
+        /* Darker than default dark */
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Deskripsi & Teks */
+    .footer-desc {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: #adb5bd;
+    }
+
+    /* Logo */
+    .footer-logo {
+        height: 65px;
+        width: auto;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+    }
+
+    /* Judul Kolom */
+    .footer-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+        position: relative;
+    }
+
+    /* Efek Link Navigasi */
+    .footer-links li {
+        margin-bottom: 12px;
+    }
+
+    .footer-links a {
+        color: #adb5bd;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+        color: #0d6efd;
+        /* Warna primary */
+        padding-left: 8px;
+    }
+
+    /* Kartu Kontak */
+    .contact-card h6 {
+        font-size: 0.85rem;
+        color: #0d6efd;
+        font-weight: 700;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .contact-card p {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+
+    /* Tombol WhatsApp Custom */
+    .btn-wa {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: transparent;
+        border: 1px solid #198754;
+        color: #198754;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-wa:hover {
+        background-color: #198754;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+    }
+
+    /* Tombol Map */
+    .btn-map {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #343a40;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
+
+    .btn-map:hover {
+        background-color: #495057;
+        color: #fff;
+    }
+
+    /* Footer Bottom (Copyright) */
+    .footer-bottom {
+        background-color: #141619;
+    }
+
+    /* Media Query Khusus Mobile */
+    @media (max-width: 767.98px) {
+        .custom-footer {
+            padding-left: 15px;
+            padding-right: 15px;
+            text-align: left;
+            /* Tetap rata kiri agar rapi */
+        }
+
+        .footer-title {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .btn-wa {
+            width: 100%;
+            /* Tombol WA melebar penuh di mobile */
+            text-align: center;
         }
     }
     </style>
