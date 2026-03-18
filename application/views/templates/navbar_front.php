@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom py-3">
     <div class="container">
         <a class="navbar-brand" href="<?= base_url(); ?>">
-            <img src="<?= base_url('assets/img/logo_ajm.png'); ?>" alt="Logo CV ABADI JAYA MITRA">
+            <img src="<?= base_url('assets/img/logoo.png'); ?>" alt="Logo CV ABADI JAYA MITRA">
         </a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="toggler-bar"></span>

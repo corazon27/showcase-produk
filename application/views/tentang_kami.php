@@ -7,7 +7,7 @@
 
         <div class="row align-items-center mb-5">
             <div class="col-lg-6">
-                <img src="<?= base_url('assets/img/logo_ajm_hd.png'); ?>" class="img-fluid rounded-4 shadow-sm"
+                <img src="<?= base_url('assets/img/logoo.png'); ?>" class="img-fluid rounded-4 shadow-sm"
                     alt="Tentang Kami">
             </div>
             <div class="col-lg-6 mt-4 mt-lg-0">
