@@ -26,8 +26,8 @@
                     <div class="col-sm-6">
                         <div class="contact-card">
                             <h6>Admin 1</h6>
-                            <p>+62 821-3640-5274</p>
-                            <a href="https://wa.me/6282136405274" class="btn-wa">
+                            <p>+62 858-0030-0257</p>
+                            <a href="https://wa.me/6285800300257" class="btn-wa">
                                 <i class="fab fa-whatsapp me-2"></i>Chat WhatsApp
                             </a>
                         </div>
@@ -35,8 +35,8 @@
                     <div class="col-sm-6">
                         <div class="contact-card">
                             <h6>Admin 2</h6>
-                            <p>+62 812-2587-6355</p>
-                            <a href="https://wa.me/6281225876355" class="btn-wa">
+                            <p>+62 821-3640-5274</p>
+                            <a href="https://wa.me/6282136405274" class="btn-wa">
                                 <i class="fab fa-whatsapp me-2"></i>Chat WhatsApp
                             </a>
                         </div>
@@ -548,8 +548,8 @@ $(document).on("click", ".btn-tanya-harga", function() {
     var pesanEncoded = $(this).data('pesan');
 
     // Nomer WA dari footer Anda
-    var waAdmin1 = "6282136405274";
-    var waAdmin2 = "6281225876355";
+    var waAdmin1 = "6285800300257";
+    var waAdmin2 = "6282136405274";
 
     // Update teks nama produk di modal
     $("#namaProdukModal").text(namaProduk);

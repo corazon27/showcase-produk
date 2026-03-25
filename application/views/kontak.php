@@ -97,7 +97,7 @@
                 <h5 class="fw-bold mb-1">Pilih Admin Tujuan</h5>
                 <p class="text-muted small mb-4">Silakan pilih admin untuk melanjutkan percakapan</p>
 
-                <button onclick="kirimAdminWhatsApp('6282136405274')"
+                <button onclick="kirimAdminWhatsApp('6285800300257')"
                     class="btn btn-whatsapp w-100 mb-3 py-3 rounded-pill d-flex align-items-center justify-content-center">
                     <i class="fab fa-whatsapp fa-2x me-3"></i>
                     <div class="text-start">
@@ -106,7 +106,7 @@
                     </div>
                 </button>
 
-                <button onclick="kirimAdminWhatsApp('6281225876355')"
+                <button onclick="kirimAdminWhatsApp('6282136405274')"
                     class="btn btn-whatsapp w-100 py-3 rounded-pill d-flex align-items-center justify-content-center">
                     <i class="fab fa-whatsapp fa-2x me-3"></i>
                     <div class="text-start">

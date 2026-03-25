@@ -403,11 +403,11 @@
 
         <div class="p-4 mt-auto">
             <p class="small text-muted fw-bold mb-3 text-uppercase" style="letter-spacing: 1px;">Hubungi Kami:</p>
-            <a href="https://wa.me/6282136405274" target="_blank"
+            <a href="https://wa.me/6285800300257" target="_blank"
                 class="btn btn-success w-100 rounded-pill mb-3 py-2 shadow-sm d-flex align-items-center justify-content-center">
                 <i class="fab fa-whatsapp me-2 fs-5"></i> Admin 1
             </a>
-            <a href="https://wa.me/6281225876355" target="_blank"
+            <a href="https://wa.me/6282136405274" target="_blank"
                 class="btn btn-outline-success w-100 rounded-pill py-2 d-flex align-items-center justify-content-center">
                 <i class="fab fa-whatsapp me-2 fs-5"></i> Admin 2
             </a>
