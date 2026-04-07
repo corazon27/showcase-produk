@@ -2,7 +2,7 @@
     <div class="container py-5">
         <div class="row g-4 lg-g-5">
             <div class="col-lg-4 mb-4 mb-lg-0">
-                <img src="<?= base_url('assets/img/logo_ajm.png'); ?>" alt="Logo CV AJM" class="footer-logo mb-3">
+                <img src="<?= base_url('assets/img/logoo.png'); ?>" alt="Logo CV AJM" class="footer-logo mb-3">
                 <p class="footer-desc">
                     CV. ABADI JAYA MITRA adalah mitra terpercaya dalam pengadaan Alat Tulis Kantor (ATK) dan perangkat
                     elektronik untuk instansi pemerintah maupun swasta.
@@ -71,7 +71,8 @@
 
 <?php 
     // 1. Tentukan Nomor Admin
-    $wa_admin = "6282136405274"; 
+    $admin1 = "6285800300257";
+    $admin2 = "6282136405274";
 
     // 2. Logika Pesan Dinamis
     // Kita cek apakah variabel $produk['nama_barang'] tersedia (hanya ada di halaman detail)
@@ -85,10 +86,48 @@
     $text_wa = urlencode($pesan_wa);
 ?>
 
-<a href="https://wa.me/<?= $wa_admin; ?>?text=<?= $text_wa; ?>" id="btn-wa-scroll" target="_blank" class="wa-circle"
-    title="Tanya Admin">
+<a href="javascript:void(0);" id="btn-wa-scroll" class="wa-circle" title="Tanya Admin" data-bs-toggle="modal"
+    data-bs-target="#modalWAFloating">
     <i class="fab fa-whatsapp"></i>
 </a>
+
+<div class="modal fade" id="modalWAFloating" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header bg-success text-white border-0 py-3" style="border-radius: 20px 20px 0 0;">
+                <h6 class="modal-title fw-bold"><i class="fab fa-whatsapp me-2"></i> Pilih Admin Chat</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <p class="small text-muted mb-4">Silahkan pilih admin untuk berkonsultasi:</p>
+
+                <div class="d-grid gap-3">
+                    <a href="https://wa.me/<?= $admin1; ?>?text=<?= $text_wa; ?>" target="_blank"
+                        class="btn btn-outline-success d-flex align-items-center justify-content-between p-3 rounded-3 shadow-sm border-2">
+                        <div class="text-start">
+                            <span class="d-block fw-bold text-dark">Admin 1</span>
+                            <small class="text-muted">+62 858-0030-0257</small>
+                        </div>
+                        <i class="fas fa-chevron-right opacity-50"></i>
+                    </a>
+
+                    <a href="https://wa.me/<?= $admin2; ?>?text=<?= $text_wa; ?>" target="_blank"
+                        class="btn btn-outline-success d-flex align-items-center justify-content-between p-3 rounded-3 shadow-sm border-2">
+                        <div class="text-start">
+                            <span class="d-block fw-bold text-dark">Admin 2</span>
+                            <small class="text-muted">+62 821-3640-5274</small>
+                        </div>
+                        <i class="fas fa-chevron-right opacity-50"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-center">
+                <small class="text-muted" style="font-size: 10px;">CV. ABADI JAYA MITRA</small>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -97,23 +136,20 @@
 <?php if($this->uri->segment(1) == 'katalog'): ?>
 <script>
 $(document).ready(function() {
-    // Menghitung jumlah awal produk untuk menentukan offset
+    // --- 1. INISIALISASI LOAD MORE ---
     let jumlahAwal = $('#product-container').children().length;
-
-    // Jika produk awal kurang dari 8, sembunyikan tombol load more
     if (jumlahAwal < 8) {
         $('#load-more-btn').hide();
     }
-
     let offset = jumlahAwal;
 
+    // --- 2. FUNGSI KLIK LOAD MORE (AJAX) ---
     $('#load-more-btn').click(function() {
         let btn = $(this);
         const urlParams = new URLSearchParams(window.location.search);
         const kategori = "<?= $id_kategori_aktif; ?>";
         const sort = urlParams.get('sort') || 'DESC';
 
-        // Efek loading pada tombol
         btn.html('<span class="spinner-border spinner-border-sm"></span> Memuat...').prop('disabled',
             true);
 
@@ -130,21 +166,17 @@ $(document).ready(function() {
                 if (data.length > 0) {
                     let html = '';
                     $.each(data, function(index, p) {
-                        // Logika slug & formatting yang sama dengan PHP
                         let slug = p.nama_barang.toLowerCase()
                             .replace(/[()&]/g, '')
                             .replace(/\s+/g, '-')
                             .replace(/-+/g, '-');
 
-                        let views = new Intl.NumberFormat('id-ID').format(p.views);
                         let linkDetail =
                             `<?= base_url('detail/'); ?>${slug}/${p.id_produk}`;
                         let pesanWA = encodeURIComponent(
                             `Halo Admin CV. ABADI JAYA MITRA, saya tertarik dengan produk *${p.nama_barang}*. Bisa minta info lebih lanjut?`
-                        );
-                        let linkWA = `https://wa.me/6282136405274?text=${pesanWA}`;
+                            );
 
-                        // STRUKTUR HTML HARUS SAMA PERSIS DENGAN PHP
                         html += `
                             <div class="col-6 col-md-3 mb-3 px-2">
                                 <div class="product-card">
@@ -160,9 +192,13 @@ $(document).ready(function() {
                                         <a href="${linkDetail}" class="text-decoration-none text-dark">
                                             <h5 class="fw-bold mb-3" style="font-size: 1rem;">${p.nama_barang}</h5>
                                         </a>
-                                        <a href="${linkWA}" target="_blank" class="btn btn-whatsapp w-100 py-2">
+                                        <button type="button" class="btn btn-whatsapp-detail w-100 shadow btn-tanya-harga"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#modalWA" 
+                                                data-produk="${p.nama_barang}"
+                                                data-pesan="${pesanWA}">
                                             <i class="fab fa-whatsapp me-2"></i> Tanya Harga
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>`;
@@ -175,7 +211,6 @@ $(document).ready(function() {
                     offset += data.length;
                     btn.html('Muat Produk Lebih Banyak').prop('disabled', false);
 
-                    // 4. CEK LIMIT 4: Jika data yang datang kurang dari 4, sembunyikan tombol
                     if (data.length < 4) {
                         btn.fadeOut();
                         $('#no-more-msg').removeClass('d-none');
@@ -190,6 +225,21 @@ $(document).ready(function() {
                 btn.html('Gagal Memuat').prop('disabled', false);
             }
         });
+    });
+
+    // --- 3. SCRIPT HANDLER MODAL ---
+    // Ditaruh di luar fungsi klik, tapi tetap di dalam $(document).ready
+    $(document).on('show.bs.modal', '#modalWA', function(event) {
+        let button = $(event.relatedTarget);
+        let namaProduk = button.data('produk');
+        let pesanBase = button.data('pesan');
+
+        let waAdmin1 = "6285800300257";
+        let waAdmin2 = "6282136405274";
+
+        $(this).find('#namaProdukModal').text(namaProduk);
+        $(this).find('#linkAdmin1').attr('href', 'https://wa.me/' + waAdmin1 + '?text=' + pesanBase);
+        $(this).find('#linkAdmin2').attr('href', 'https://wa.me/' + waAdmin2 + '?text=' + pesanBase);
     });
 });
 </script>

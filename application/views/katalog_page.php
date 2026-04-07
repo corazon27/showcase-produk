@@ -187,9 +187,11 @@
                             </a>
                         </div>
 
-                        <a href="<?= $link_wa; ?>" target="_blank" class="btn btn-whatsapp w-100 py-2">
+                        <button type="button" class="btn btn-whatsapp-detail w-100 shadow btn-tanya-harga"
+                            data-bs-toggle="modal" data-bs-target="#modalWA" data-produk="<?= $p['nama_barang']; ?>"
+                            data-pesan="<?= urlencode($pesan); ?>">
                             <i class="fab fa-whatsapp me-2"></i> Tanya Harga
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -201,5 +203,34 @@
             <p id="no-more-msg" class="text-muted d-none mt-3">Semua produk telah ditampilkan.</p>
         </div>
         <?php endif; ?>
+    </div>
+</div>
+
+<div class="modal fade" id="modalWA" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <h5 class="fw-bold mb-1">Pilih Admin Tujuan</h5>
+                <p class="text-muted small mb-4">Silakan pilih admin untuk melanjutkan percakapan</p>
+                <div class="text-center mb-4">
+                    <p class="small text-muted mb-0">Produk: <span id="namaProdukModal"
+                            class="fw-bold text-dark"></span></p>
+                </div>
+
+                <a href="#" id="linkAdmin1" target="_blank"
+                    class="btn btn-whatsapp w-100 py-3 rounded-pill mb-3 d-flex align-items-center justify-content-center">
+                    <i class="fab fa-whatsapp fa-lg me-2"></i> <strong>WhatsApp Admin 1</strong>
+                </a>
+
+                <a href="#" id="linkAdmin2" target="_blank"
+                    class="btn btn-whatsapp w-100 py-3 rounded-pill d-flex align-items-center justify-content-center">
+                    <i class="fab fa-whatsapp fa-lg me-2"></i> <strong>WhatsApp Admin 2</strong>
+                </a>
+
+            </div>
+        </div>
     </div>
 </div>

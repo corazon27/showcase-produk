@@ -19,7 +19,7 @@
         $keywords = $clean_title . ", pengadaan atk, supplier " . $clean_title . ", " . $site_name;
     } else {
         $og_title = $site_name . " - Solusi Pengadaan Barang Kantor";
-        $og_image = base_url('assets/img/logo_ajm.png');
+        $og_image = base_url('assets/img/logoo.png');
         $og_desc = "Mitra terpercaya pengadaan Alat Tulis Kantor (ATK) dan perangkat elektronik untuk instansi pemerintah & swasta.";
         $og_type = "website";
         $keywords = "pengadaan atk, supplier kantor magelang, cv abadi jaya mitra, alat tulis kantor";
@@ -43,14 +43,14 @@
     <meta name="twitter:description" content="<?= $og_desc; ?>">
     <meta name="twitter:image" content="<?= $og_image; ?>">
 
-    <link rel="icon" type="image/png" href="<?= base_url('assets/img/logo_ajm.png'); ?>">
+    <link rel="icon" type="image/png" href="<?= base_url('assets/img/logoo.png'); ?>">
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org/",
         "@type": "LocalBusiness",
         "name": "CV. ABADI JAYA MITRA",
-        "image": "<?= base_url('assets/img/logo_ajm.png'); ?>",
+        "image": "<?= base_url('assets/img/logoo.png'); ?>",
         "@id": "<?= base_url(); ?>",
         "url": "<?= base_url(); ?>",
         "telephone": "+6282136405274",
@@ -972,6 +972,45 @@
         animation: wa-pulse 2s infinite;
     }
 
+    /* Memberikan efek halus pada kartu admin */
+    #modalWAFloating .btn-outline-success {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-color: #25d366;
+        /* Warna khas WhatsApp */
+        background-color: #ffffff;
+    }
+
+    /* Efek ketika tombol di-hover atau ditekan */
+    #modalWAFloating .btn-outline-success:hover {
+        background-color: #f0fff4;
+        /* Hijau sangat muda */
+        border-color: #128c7e;
+        transform: translateY(-3px);
+        /* Tombol sedikit terangkat */
+        box-shadow: 0 10px 20px rgba(37, 211, 102, 0.15) !important;
+    }
+
+    /* Mempercantik Header dengan gradasi */
+    #modalWAFloating .modal-header {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
+    }
+
+    /* Styling tambahan untuk teks agar lebih rapi */
+    #modalWAFloating .modal-title {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+    }
+
+    #modalWAFloating .btn-close-white {
+        filter: brightness(0) invert(1);
+        /* Memastikan tombol close terlihat jelas */
+    }
+
+    /* Pastikan bayangan modal halus */
+    .shadow-lg {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    }
+
     @keyframes wa-pulse {
         0% {
             transform: scale(1);
@@ -1252,6 +1291,14 @@
         background-color: #1a1d20;
         /* Darker than default dark */
         font-family: 'Inter', sans-serif;
+    }
+
+    .footer-logo {
+        background-color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     /* Deskripsi & Teks */

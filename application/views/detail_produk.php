@@ -359,7 +359,7 @@
     style="width: 300px;">
     <div class="offcanvas-header border-bottom py-4 bg-light">
         <div class="d-flex align-items-center">
-            <img src="<?= base_url('assets/img/logo_ajm.png'); ?>" alt="Logo" style="height: 40px;" class="me-2">
+            <img src="<?= base_url('assets/img/logoo.png'); ?>" alt="Logo" style="height: 40px;" class="me-2">
             <div>
                 <h6 class="offcanvas-title fw-bold text-dark mb-0" id="offcanvasNavbarLabel" style="font-size: 0.9rem;">
                     CV. ABADI JAYA MITRA</h6>
