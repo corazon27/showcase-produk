@@ -175,7 +175,7 @@ $(document).ready(function() {
                             `<?= base_url('detail/'); ?>${slug}/${p.id_produk}`;
                         let pesanWA = encodeURIComponent(
                             `Halo Admin CV. ABADI JAYA MITRA, saya tertarik dengan produk *${p.nama_barang}*. Bisa minta info lebih lanjut?`
-                            );
+                        );
 
                         html += `
                             <div class="col-6 col-md-3 mb-3 px-2">
@@ -327,25 +327,25 @@ function copyLink() {
 
 
 <script>
+// Hitung jumlah gambar (slide) yang ada di dalam bungkus swiper
+let jumlahGambar = document.querySelectorAll('.mySwiper .swiper-slide').length;
+
 var swiper = new Swiper(".mySwiper", {
-    loop: true, // Aktifkan agar tidak "buntu"
-    spaceBetween: 3.5, // Garis pemisah
+    // Loop HANYA aktif jika gambar ada 3 atau lebih
+    loop: jumlahGambar > 2,
+    spaceBetween: 3.5,
     centeredSlides: true,
     speed: 600,
     grabCursor: true,
 
-    // Tambahkan ini agar sinkronisasi loop lebih akurat
     loopedSlides: 5,
     watchSlidesProgress: true,
 
     pagination: {
         el: ".swiper-pagination-custom",
         clickable: true,
-        // Penting: Swiper akan otomatis mengelola jumlah dot 
-        // sesuai jumlah slide asli (bukan slide duplikat loop)
     },
 
-    // Opsional: aktifkan autoplay jika ingin seperti Barokah Motor
     autoplay: {
         delay: 8000,
         disableOnInteraction: false,
